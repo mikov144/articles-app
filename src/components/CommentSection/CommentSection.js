@@ -1,6 +1,6 @@
 // src/components/CommentSection.js
 import React, { useEffect, useState } from 'react';
-import { fetchCommentsByArticleId } from '../services/articleService';
+import { fetchCommentsByArticleId } from '../../services/articleService';
 import Comment from './Comment';
 
 const CommentSection = ({ articleId }) => {

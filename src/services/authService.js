@@ -39,6 +39,7 @@ export const changePassword = async (passwordData) => {
 
 export const logout = () => {
   localStorage.removeItem('token');
+  localStorage.removeItem('username');
 };
 
 export const getCurrentUser = () => {

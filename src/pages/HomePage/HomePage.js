@@ -1,8 +1,8 @@
-// src/components/HomePage.js
+import { HomePageWrapper } from './homePage.styled';
 import React, { useEffect, useState } from 'react';
-import ArticleCard from './ArticleCard';
-import { fetchArticles } from '../services/articleService';
-import Header from './Header';
+import ArticleCard from '../../components/ArticleCard/ArticleCard';
+import { fetchArticles } from '../../services/articleService';
+import Header from '../../components/Header/Header';
 
 const HomePage = () => {
   const [articles, setArticles] = useState([]);
@@ -20,15 +20,15 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="home-page">
+    <HomePageWrapper>
       <Header />
       <h1>News Articles</h1>
-      <div className="articles-container">
+      <div className='articles-container'>
         {articles.map((article) => (
           <ArticleCard key={article.id} article={article} />
         ))}
       </div>
-    </div>
+    </HomePageWrapper>
   );
 };
 
