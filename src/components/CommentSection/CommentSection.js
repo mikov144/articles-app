@@ -37,7 +37,7 @@ const CommentSection = ({ articleId }) => {
 
   return (
     <CommentSectionWrapper>
-      <h2 className='comment-section__title'>Комментарии</h2>
+      <h2 className='comment-section__title'>Комментарии:</h2>
       <div className="comment-section__input">
         <textarea
           value={newComment}

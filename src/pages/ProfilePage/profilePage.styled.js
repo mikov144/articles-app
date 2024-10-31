@@ -29,12 +29,16 @@ export const ProfilePageWrapper = styled.div`
     }
 
     .profile-page__field {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
       background-color: #333333;
       color: #ffffff;
+    }
+
+    #change-btn {
+      margin-top: 15px;
     }
 
     .profile-page__button {
@@ -63,16 +67,12 @@ export const ProfilePageWrapper = styled.div`
       font-size: 11px;
       color: red;
       text-align: center;
-      margin-top: -10px;
-      margin-bottom: 10px;
     }
 
     .profile-page__message {
       font-size: 11px;
       color: #a5d124;
       text-align: center;
-      margin-top: -10px;
-      margin-bottom: 10px;
     }
   }
 `

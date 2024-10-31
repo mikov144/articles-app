@@ -51,7 +51,7 @@ export const LoginPageWrapper = styled.div`
   }
 
   .login-form__field {
-    margin-bottom: 6px;
+    margin-bottom: 15px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -60,6 +60,7 @@ export const LoginPageWrapper = styled.div`
   }
 
   .login-form__button {
+    margin-top: 15px;
     margin-bottom: 15px;
     padding: 10px;
     border: none;
@@ -83,7 +84,6 @@ export const LoginPageWrapper = styled.div`
 
   .login-form__error {
     margin-left: 18px;
-    margin-bottom: 6px;
     font-size: 8px;
     line-height: 10px;
     color: #FF0B0B;

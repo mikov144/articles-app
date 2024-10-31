@@ -49,7 +49,7 @@ const LoginPage = () => {
             className='login-form__field'
             required
           />
-          {error && <p className="login-form__error">{error}</p>}
+          <p className="login-form__error" style={{visibility: `${error ? 'visible' : 'hidden'}`}}>{error}!</p>
           <button type="submit" className='login-form__button'>Войти</button>
         </form>
       </div>

@@ -64,9 +64,9 @@ const ProfilePage = () => {
             onChange={(e) => setConfirmedPassword(e.target.value)}
             required
           />
-          {error && <p className="profile-page__error">{error}</p>}
-          {message && <p className="profile-page__message">{message}</p>}
-          <button type="submit" className='profile-page__button'>Изменить пароль</button>
+          <p className="profile-page__error" style={{visibility: `${error ? 'visible' : 'hidden'}`}}>{error}!</p>
+          <p className="profile-page__message" style={{visibility: `${message ? 'visible' : 'hidden'}`}}>{message}!</p>
+          <button type="submit" className='profile-page__button' id='change-btn'>Изменить пароль</button>
           <button onClick={() => navigate('/')} className='profile-page__button' id='home-button'>На главную</button>
         </form>
       </div>
