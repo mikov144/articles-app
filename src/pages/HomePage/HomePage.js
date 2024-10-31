@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import ArticleCard from '../../components/ArticleCard/ArticleCard';
 import { fetchArticles } from '../../services/articleService';
 import Header from '../../components/Header/Header';
+import { Loader } from '../../components/Loader/Loader';
 
 const HomePage = () => {
   const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getArticles = async () => {
@@ -14,6 +16,8 @@ const HomePage = () => {
         setArticles(data);
       } catch (error) {
         console.error('Error fetching articles:', error);
+      } finally {
+        setLoading(false)
       }
     };
     getArticles();
@@ -22,15 +26,20 @@ const HomePage = () => {
   return (
     <HomePageWrapper>
       <Header />
-      <h1>News Articles</h1>
-      <div className='articles-container'>
-        {articles.map((article) => (
-          <ArticleCard key={article.id} article={article} />
-        ))}
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <h1>News Articles</h1>
+          <div className="articles-container">
+            {articles.map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+        </>
+      )}
     </HomePageWrapper>
   );
 };
 
 export default HomePage;
-

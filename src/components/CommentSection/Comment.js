@@ -1,9 +1,12 @@
 // src/components/Comment.js
 import React, { useState } from 'react';
+import { getCurrentUser } from '../../services/authService';
+import { CommentWrapper } from './comment.styled';
 
 const Comment = ({ comment }) => {
   const [reply, setReply] = useState('');
   const [showReplyBox, setShowReplyBox] = useState(false);
+  const username = getCurrentUser()
 
   const handleReplyChange = (e) => {
     setReply(e.target.value);
@@ -17,7 +20,7 @@ const Comment = ({ comment }) => {
       id: updatedComment.replies.length + 1,
       content: reply,
       author: {
-        username: 'current_user' // Replace with actual current user
+        username: username
       }
     };
 
@@ -27,27 +30,28 @@ const Comment = ({ comment }) => {
   };
 
   return (
-    <div className="comment">
-      <p><strong>{comment.author.username}</strong>: {comment.content}</p>
-      <button onClick={() => setShowReplyBox(!showReplyBox)}>Reply</button>
+    <CommentWrapper>
+      <p className='comment__message'><strong>{comment.author.username}</strong>: {comment.content}</p>
+      <button onClick={() => setShowReplyBox(!showReplyBox)} className='comment__button'>Ответить</button>
       {showReplyBox && (
         <div className="reply-input">
           <textarea
             value={reply}
             onChange={handleReplyChange}
-            placeholder="Add a reply..."
+            placeholder="Напишите ответ..."
+            className='reply-input__text'
           />
-          <button onClick={handleReplySubmit}>Post</button>
+          <button onClick={handleReplySubmit} className='reply-input__button'>Отправить</button>
         </div>
       )}
       <div className="replies">
         {comment.replies.map((reply) => (
           <div key={reply.id} className="reply">
-            <p><strong>{reply.author.username}</strong>: {reply.content}</p>
+            <p className='reply__message'><strong>{reply.author.username}</strong>: {reply.content}</p>
           </div>
         ))}
       </div>
-    </div>
+    </CommentWrapper>
   );
 };
 

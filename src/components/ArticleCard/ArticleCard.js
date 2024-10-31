@@ -10,7 +10,7 @@ const ArticleCard = ({ article }) => {
         <img src={article.image} alt={article.title} className="article-card__image" />
       </div>
       <Link to={`/article/${article.id}`}><h2 className="article-card__title">{article.title}</h2></Link>
-      <p className="article-card__username">by {article.author.username}</p>
+      <p className="article-card__username">автор: {article.author.username}</p>
       <p className="article-card__content">{article.content.substring(0, 100)}...</p>
       <Link to={`/article/${article.id}`}><button className="article-card__button">Читать далее</button></Link>
     </ArticleCardWrapper>

@@ -9,6 +9,7 @@ export const ProfilePageWrapper = styled.div`
 
   .profile-page {
     max-width: 400px;
+    width: 100%;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -28,11 +29,12 @@ export const ProfilePageWrapper = styled.div`
     }
 
     .profile-page__field {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
       background-color: #333333;
+      color: #ffffff;
     }
 
     .profile-page__button {
@@ -43,6 +45,14 @@ export const ProfilePageWrapper = styled.div`
       color: #000000;
       border-radius: 4px;
       cursor: pointer;
+
+      &:hover {
+          background-color: #89ad1c;
+        }
+
+      &:active {
+        opacity: 0.5;
+      }
     }
 
     #home-button {

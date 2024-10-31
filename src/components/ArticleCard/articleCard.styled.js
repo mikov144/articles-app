@@ -29,11 +29,19 @@ export const ArticleCardWrapper = styled.div`
     line-height: 26px;
     color: #ffffff;
     cursor: pointer;
+
+    &:hover {
+      color: #b8b7b6;
+    }
+
+    &:active {
+      opacity: 0.5;
+    }
   }
 
   .article-card__username {
     margin-bottom: 20px;
-    font-size: 18px;
+    font-size: 16px;
     color: #a5d124;
   }
 
@@ -42,6 +50,8 @@ export const ArticleCardWrapper = styled.div`
     font-size: 22px;
     line-height: 23px;
     color: #ffffff;
+    text-indent: 20px;
+    word-break: break-all;
   }
 
   .article-card__button {

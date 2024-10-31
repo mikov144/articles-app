@@ -1,11 +1,14 @@
 // src/components/CommentSection.js
 import React, { useEffect, useState } from 'react';
 import { fetchCommentsByArticleId } from '../../services/articleService';
+import { getCurrentUser } from '../../services/authService';
 import Comment from './Comment';
+import { CommentSectionWrapper } from './commentSection.styled';
 
 const CommentSection = ({ articleId }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
+  const username = getCurrentUser()
 
   useEffect(() => {
     const getComments = async () => {
@@ -24,7 +27,7 @@ const CommentSection = ({ articleId }) => {
       id: comments.length + 1,
       content: newComment,
       author: {
-        username: 'current_user' // Replace with actual current user
+        username: username
       },
       replies: []
     };
@@ -33,22 +36,23 @@ const CommentSection = ({ articleId }) => {
   };
 
   return (
-    <div className="comment-section">
-      <h2>Comments</h2>
-      <div className="comment-input">
+    <CommentSectionWrapper>
+      <h2 className='comment-section__title'>Комментарии</h2>
+      <div className="comment-section__input">
         <textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Add a comment..."
+          placeholder="Оставить комментарий..."
+          className="comment-section__input-text"
         />
-        <button onClick={handleAddComment}>Post</button>
+        <button onClick={handleAddComment} className="comment-section__input-button">Отправить</button>
       </div>
-      <div className="comments-list">
+      <div className="comment-section__list">
         {comments.map((comment) => (
           <Comment key={comment.id} comment={comment} />
         ))}
       </div>
-    </div>
+    </CommentSectionWrapper>
   );
 };
 
