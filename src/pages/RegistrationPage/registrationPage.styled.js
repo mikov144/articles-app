@@ -60,6 +60,8 @@ export const RegistrationPageWrapper = styled.div`
   }
 
   .registration-form__button {
+    display: flex;
+    justify-content: center;
     margin-bottom: 15px;
     padding: 10px;
     border: none;

@@ -3,8 +3,14 @@ import { register } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 import { RegistrationPageWrapper } from './registrationPage.styled';
 import { Link } from "react-router-dom"
+import { Modal } from '../../components/Modal/Modal';
+import Spinner from "react-spinkit"
+
 
 const RegistrationPage = () => {
+  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false)
+
   const [values, setValues] = useState({
     firstName: '',
     lastName: '',
@@ -88,14 +94,22 @@ const RegistrationPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     if (!isFormValid) {
       setErrors((prevErrors) => ({ ...prevErrors, form: 'Форма заполнена неверно' }));
+      setLoading(false)
       return;
     }
     try {
       await register({ username: values.username, email: values.email, password: values.password, first_name: values.firstName, last_name: values.lastName });
       console.log('Registration successful');
-      navigate('/login');
+      setLoading(false)
+      setShowModal(true)
+      setTimeout(() => {
+        setShowModal(false)
+        navigate('/login');
+      }, 2000)
+      
     } catch (err) {
       if (err.response && err.response.data) {
         setErrors(err.response.data.detail || 'Registration failed');
@@ -152,9 +166,16 @@ const RegistrationPage = () => {
             className='registration-form__field'
           />
           <p className='registration-form__error' style={{visibility: `${errors.password ? 'visible' : 'hidden'}`}}>{errors.password}!</p>
-          <button type="submit" className='registration-form__button' disabled={!isFormValid}>Зарегистрироваться</button>
+          <button type="submit" className='registration-form__button' disabled={!isFormValid || loading}>{loading ? <Spinner name='circle' /> : <p>Зарегистрироваться</p>}</button>
         </form>
       </div>
+      {showModal ? (
+        <Modal>
+          <h2>Регистрация успешна! <br />Перенаправляем на страницу входа...</h2>
+        </Modal>
+      ) : (
+        <></>
+      )}
     </RegistrationPageWrapper>
   );
 };

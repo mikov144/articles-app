@@ -39,7 +39,6 @@ const LoginPage = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className='login-form__field'
-            required
           />
           <input
             type="password"
@@ -47,7 +46,6 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className='login-form__field'
-            required
           />
           <p className="login-form__error" style={{visibility: `${error ? 'visible' : 'hidden'}`}}>{error}!</p>
           <button type="submit" className='login-form__button'>Войти</button>
