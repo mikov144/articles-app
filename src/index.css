@@ -77,3 +77,44 @@ a {
   color: #ffffff;
   opacity: 0.7;
 }
+
+
+
+/* src/App.css */
+.create-article-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.create-article-form input,
+.create-article-form textarea {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-article-form button {
+  padding: 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create-article-form .error {
+  color: red;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.create-article-form .message {
+  color: green;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+

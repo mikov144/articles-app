@@ -5,6 +5,8 @@ import ArticlePage from './pages/ArticlePage/ArticlePage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import CreateArticlePage from './pages/CreateArticlePage/CreateArticlePage';
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
   return (
@@ -14,7 +16,8 @@ function App() {
         <Route path="/article/:id" element={<ArticlePage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile" element={<PrivateRoute element={ProfilePage} />} />
+        <Route path="/create-article" element={<PrivateRoute element={CreateArticlePage} />} />
       </Routes>
     </Router>
   );

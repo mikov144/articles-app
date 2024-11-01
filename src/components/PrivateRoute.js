@@ -3,9 +3,9 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { getCurrentUser } from '../services/authService';
 
-const PrivateRoute = ({ element: Element, ...rest }) => {
+const PrivateRoute = ({ element: Component, ...rest }) => {
   const isAuthenticated = getCurrentUser();
-  return isAuthenticated ? <Element {...rest} /> : <Navigate to="/login" />;
+  return isAuthenticated ? <Component {...rest} /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

@@ -1,5 +1,6 @@
 import { HomePageWrapper } from './homePage.styled';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ArticleCard from '../../components/ArticleCard/ArticleCard';
 import { fetchArticles } from '../../services/articleService';
 import Header from '../../components/Header/Header';
@@ -17,7 +18,7 @@ const HomePage = () => {
       } catch (error) {
         console.error('Error fetching articles:', error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
     getArticles();
@@ -30,7 +31,7 @@ const HomePage = () => {
         <Loader />
       ) : (
         <>
-          <h1>News Articles</h1>
+          <Link to="/create-article" className="create-article-link">Create New Article</Link>
           <div className="articles-container">
             {articles.map((article) => (
               <ArticleCard key={article.id} article={article} />
