@@ -7,7 +7,7 @@ export const ArticleCardWrapper = styled.div`
   justify-content: space-between;
   border: 1px solid #cccccc;
   border-radius: 8px;
-  padding: 18px;
+  padding: 40px 20px;
   width: 432px;
   background-color: #1F1F1F;
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);

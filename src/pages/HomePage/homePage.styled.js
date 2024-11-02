@@ -18,7 +18,7 @@ export const HomePageWrapper = styled.div`
     .home-button {
       margin-top: 15px;
       margin-bottom: 15px;
-      margin-left: 20px;
+      margin-left: 22px;
       padding: 10px;
       border: none;
       background-color: #a5d124;

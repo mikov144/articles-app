@@ -56,6 +56,10 @@ export const CreateArticleFormWrapper = styled.form`
       resize: none;
     }
 
+    #content-field {
+      height: 150px;
+    }
+
     #file-upload {
       margin-bottom: 10px;
       max-width: 200px;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ArticlePageWrapper = styled.div`
-  padding: 20px;
+  padding: 20px 70px;
   background-color: #141414;
 
   .article-inner {

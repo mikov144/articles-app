@@ -1,8 +1,8 @@
-// src/components/CreateArticlePage.js
+// src/pages/CreateArticlePage/CreateArticlePage.js
 import React from 'react';
-import Header from '../../components/Header/Header';
 import CreateArticleForm from '../../components/CreateArticleForm/CreateArticleForm';
 import { useNavigate } from 'react-router-dom'
+import { CreateArticlePageWrapper } from './createArticlePage.styled';
 
 const CreateArticlePage = () => {
   const navigate = useNavigate();
@@ -14,10 +14,9 @@ const CreateArticlePage = () => {
   };
 
   return (
-    <div className="create-article-page">
-      <Header />
+    <CreateArticlePageWrapper>
       <CreateArticleForm onArticleCreated={handleArticleCreated} />
-    </div>
+    </CreateArticlePageWrapper>
   );
 };
 

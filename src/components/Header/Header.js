@@ -2,6 +2,7 @@ import { HeaderWrapper } from './header.styled';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, logout } from '../../services/authService';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const Header = () => {
 
   return (
     <HeaderWrapper>
-      <h1 className='header__title'>Новостная лента</h1>
+      <Link to={'/'}><h1 className='header__title'>Новостная лента</h1></Link>
       <div className="navigation">
         {username ? (
           <>

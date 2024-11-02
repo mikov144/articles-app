@@ -1,9 +1,8 @@
 // src/pages/ArticleEditPage/ArticleEditPage.js
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { fetchArticleById } from '../../services/articleService';
 import { editArticle, deleteArticle } from '../../services/authService';
-import Header from '../../components/Header/Header';
 import { Loader } from '../../components/Loader/Loader';
 import { ArticleEditPageWrapper } from './articleEditPage.styled';
 
@@ -44,7 +43,7 @@ const ArticleEditPage = () => {
       await editArticle(id, formData);
       navigate(`/article/${id}`);
     } catch (err) {
-      setError('Failed to edit article. Please try again.');
+      setError('Не получилось изменить статью, попробуйте еще раз');
       console.error('Error editing article:', err);
     }
   };
@@ -54,7 +53,7 @@ const ArticleEditPage = () => {
       await deleteArticle(id);
       navigate('/');
     } catch (err) {
-      setError('Failed to delete article. Please try again.');
+      setError('Не получилось удалить статью, попробуйте еще раз');
       console.error('Error deleting article:', err);
     }
   };
@@ -62,7 +61,6 @@ const ArticleEditPage = () => {
   if (loading) {
     return (
       <ArticleEditPageWrapper>
-        <Header />
         <Loader />
       </ArticleEditPageWrapper>
     );
@@ -70,30 +68,35 @@ const ArticleEditPage = () => {
 
   return (
     <ArticleEditPageWrapper>
-      <Header />
-      <h1>Edit Article</h1>
-      <form onSubmit={handleSubmit} className="edit-article-form">
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-        <textarea
-          placeholder="Content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-        />
-        <input
-          type="file"
-          onChange={(e) => setImage(e.target.files[0])}
-        />
-        {error && <p className="error">{error}</p>}
-        <button type="submit">Save Changes</button>
-        <button type="button" onClick={handleDelete}>Delete Article</button>
-      </form>
+      <div className='article-edit__inner'>
+        <Link to={`/article/${id}`}><span className="article-edit__inner-link">Назад</span></Link>
+        <h2 className='article-edit__inner-title'>Редактировать статью</h2>
+        <form onSubmit={handleSubmit} className="article-form">
+          <input
+            type="text"
+            placeholder="Заголовок"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className='article-form__field'
+          />
+          <textarea
+            placeholder="Содержимое"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className='article-form__field'
+            id='content-field'
+          />
+          <input
+            type="file"
+            onChange={(e) => setImage(e.target.files[0])}
+            className='article-form__field'
+            id='file-upload'
+          />
+          <p className="article-form__error" style={{visibility: `${error ? 'visible' : 'hidden'}`}}>{error}!</p>
+          <button type="submit" className='article-form__button'>Сохранить изменения</button>
+          <button type="button" onClick={handleDelete} className='article-form__button'>Удалить статью</button>
+        </form>
+      </div>
     </ArticleEditPageWrapper>
   );
 };

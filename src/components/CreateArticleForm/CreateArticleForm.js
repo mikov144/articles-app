@@ -1,8 +1,9 @@
-// src/components/CreateArticleForm.js
+// src/components/CreateArticleForm/CreateArticleForm.js
 import React, { useState } from 'react';
 import { createArticle } from '../../services/authService';
 import { CreateArticleFormWrapper } from './createArticleForm.styled';
 import { Link } from 'react-router-dom';
+import Spinner from "react-spinkit"
 
 const CreateArticleForm = ({ onArticleCreated }) => {
   const [title, setTitle] = useState('');
@@ -10,9 +11,11 @@ const CreateArticleForm = ({ onArticleCreated }) => {
   const [image, setImage] = useState(null);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
@@ -25,6 +28,7 @@ const CreateArticleForm = ({ onArticleCreated }) => {
       setTitle('');
       setContent('');
       setImage(null);
+      setLoading(false)
       setMessage('Статья была успешно создана');
       setError('');
       if (onArticleCreated) {
@@ -33,6 +37,7 @@ const CreateArticleForm = ({ onArticleCreated }) => {
     } catch (err) {
       setError('Не удалось создать статью, попробуйте еще раз');
       setMessage('');
+      setLoading(false)
       console.error('Error creating article:', err);
     }
   };
@@ -54,6 +59,7 @@ const CreateArticleForm = ({ onArticleCreated }) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           className='create-article__field'
+          id='content-field'
         />
         <input
           type="file"
@@ -63,7 +69,7 @@ const CreateArticleForm = ({ onArticleCreated }) => {
         />
         <p className="create-article__error" style={{visibility: `${error ? 'visible' : 'hidden'}`}}>{error}!</p>
         <p className="create-article__message" style={{visibility: `${message ? 'visible' : 'hidden'}`}}>{message}!</p>
-        <button type="submit" className='create-article__button'>Создать статью</button>
+        <button type="submit" className='create-article__button' disabled={loading}>{loading ? <Spinner name='circle' /> : <p>Создать статью</p>}</button>
       </div>
     </CreateArticleFormWrapper>
   );
