@@ -39,7 +39,7 @@ export const CommentWrapper = styled.div`
       border: 1px solid #ccc;
       border-radius: 4px;
       width: 70%;
-      resize: vertical;
+      resize: none;
       background-color: #333333;
       color: #ffffff;
     }

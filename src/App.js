@@ -1,3 +1,4 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
@@ -6,7 +7,8 @@ import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import CreateArticlePage from './pages/CreateArticlePage/CreateArticlePage';
-import PrivateRoute from './components/PrivateRoute'
+import ArticleEditPage from './pages/ArticleEditPage/ArticleEditPage';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
@@ -18,9 +20,11 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<PrivateRoute element={ProfilePage} />} />
         <Route path="/create-article" element={<PrivateRoute element={CreateArticlePage} />} />
+        <Route path="/edit-article/:id" element={<PrivateRoute element={ArticleEditPage} />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+

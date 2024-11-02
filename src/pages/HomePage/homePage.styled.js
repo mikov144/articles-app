@@ -11,4 +11,28 @@ export const HomePageWrapper = styled.div`
     justify-content: center;
     gap: 16px;
   }
+
+  .buttonWrapper {
+    display: flex;
+
+    .home-button {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      margin-left: 20px;
+      padding: 10px;
+      border: none;
+      background-color: #a5d124;
+      color: #000000;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:hover {
+          background-color: #89ad1c;
+        }
+
+      &:active {
+        opacity: 0.5;
+      }
+    }
+  }
 `

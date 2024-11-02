@@ -31,7 +31,9 @@ const HomePage = () => {
         <Loader />
       ) : (
         <>
-          <Link to="/create-article" className="create-article-link">Create New Article</Link>
+          <div className='buttonWrapper'>
+            <Link to="/create-article" className="create-article-link"><button className='home-button'>Добавить статью</button></Link>
+          </div>
           <div className="articles-container">
             {articles.map((article) => (
               <ArticleCard key={article.id} article={article} />

@@ -43,21 +43,27 @@ export const ArticlePageWrapper = styled.div`
       word-break: break-all;
     }
 
-    .article-inner__button {
-      margin-bottom: 60px;
-      padding: 5px 10px;
-      border: none;
-      background-color: #a5d124;
-      color: #000000;
-      border-radius: 4px;
-      cursor: pointer;
+    .buttons-wrapper {
+      display: flex;
+      justify-content: space-between;
+      gap: 0 40px;
 
-      &:hover {
-        background-color: #89ad1c;
-      }
+      .buttons-wrapper__button {
+        margin-bottom: 60px;
+        padding: 5px 10px;
+        border: none;
+        background-color: #a5d124;
+        color: #000000;
+        border-radius: 4px;
+        cursor: pointer;
 
-      &:active {
-        opacity: 0.5;
+        &:hover {
+          background-color: #89ad1c;
+        }
+
+        &:active {
+          opacity: 0.5;
+        }
       }
     }
   }
