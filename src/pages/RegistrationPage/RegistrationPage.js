@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { RegistrationPageWrapper } from './registrationPage.styled';
 import { Link } from "react-router-dom"
 import { Modal } from '../../components/Modal/Modal';
-import Spinner from "react-spinkit"
+import Spinner from 'react-bootstrap/Spinner';
 
 
 const RegistrationPage = () => {
@@ -166,7 +166,7 @@ const RegistrationPage = () => {
             className='registration-form__field'
           />
           <p className='registration-form__error' style={{visibility: `${errors.password ? 'visible' : 'hidden'}`}}>{errors.password}!</p>
-          <button type="submit" className='registration-form__button' disabled={!isFormValid || loading}>{loading ? <Spinner name='circle' /> : <p>Зарегистрироваться</p>}</button>
+          <button type="submit" className='registration-form__button' disabled={!isFormValid || loading}>{loading ? <Spinner animation="border" role="status"><span className="visually-hidden">Загрузка...</span></Spinner> : <p>Зарегистрироваться</p>}</button>
         </form>
       </div>
       {showModal ? (

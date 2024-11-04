@@ -13,6 +13,14 @@ export const HeaderWrapper = styled.header`
     font-size: 32px;
     font-weight: 500;
     color: #ffffff;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      opacity: 0.6;
+    }
   }
 
   .navigation {

@@ -3,16 +3,20 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { fetchArticleById } from '../../services/articleService';
 import { editArticle, deleteArticle } from '../../services/authService';
-import { Loader } from '../../components/Loader/Loader';
 import { ArticleEditPageWrapper } from './articleEditPage.styled';
+import Spinner from 'react-bootstrap/Spinner';
+import { Modal } from '../../components/Modal/Modal';
 
 const ArticleEditPage = () => {
   const { id } = useParams();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
   const [error, setError] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [thinkingConfirm, setThinkingConfirm] = useState(false);
+  const [thinkingDelete, setThinkingDelete] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,8 +27,6 @@ const ArticleEditPage = () => {
         setContent(data.content);
       } catch (error) {
         console.error('Error fetching article:', error);
-      } finally {
-        setLoading(false);
       }
     };
     getArticle();
@@ -32,6 +34,8 @@ const ArticleEditPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setThinkingConfirm(true);
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
@@ -49,6 +53,8 @@ const ArticleEditPage = () => {
   };
 
   const handleDelete = async () => {
+    setLoading(true);
+    setThinkingDelete(true);
     try {
       await deleteArticle(id);
       navigate('/');
@@ -58,16 +64,25 @@ const ArticleEditPage = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <ArticleEditPageWrapper>
-        <Loader />
-      </ArticleEditPageWrapper>
-    );
-  }
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
+
+  const confirmDelete = () => {
+    handleDelete();
+    closeModal();
+  };
 
   return (
     <ArticleEditPageWrapper>
+      {showModal && (
+        <Modal>
+          <p>Вы уверены, что хотите удалить эту статью?</p>
+          <div className='modal-inner'>
+            <button onClick={confirmDelete} disabled={loading} className='modal__button'>Да</button>
+            <button onClick={closeModal} disabled={loading} className='modal__button'>Нет</button>
+          </div>
+        </Modal>
+      )}
       <div className='article-edit__inner'>
         <Link to={`/article/${id}`}><span className="article-edit__inner-link">Назад</span></Link>
         <h2 className='article-edit__inner-title'>Редактировать статью</h2>
@@ -93,8 +108,12 @@ const ArticleEditPage = () => {
             id='file-upload'
           />
           <p className="article-form__error" style={{visibility: `${error ? 'visible' : 'hidden'}`}}>{error}!</p>
-          <button type="submit" className='article-form__button'>Сохранить изменения</button>
-          <button type="button" onClick={handleDelete} className='article-form__button'>Удалить статью</button>
+          <button type="submit" className='article-form__button' disabled={loading}>
+            {thinkingConfirm ? <Spinner animation="border" role="status"><span className="visually-hidden">Загрузка...</span></Spinner> : <p>Сохранить изменения</p>}
+          </button>
+          <button type="button" onClick={openModal} className='article-form__button' disabled={loading}>
+            {thinkingDelete ? <Spinner animation="border" role="status"><span className="visually-hidden">Загрузка...</span></Spinner> : <p>Удалить статью</p>}
+          </button>
         </form>
       </div>
     </ArticleEditPageWrapper>

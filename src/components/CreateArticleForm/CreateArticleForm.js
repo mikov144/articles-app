@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { createArticle } from '../../services/authService';
 import { CreateArticleFormWrapper } from './createArticleForm.styled';
 import { Link } from 'react-router-dom';
-import Spinner from "react-spinkit"
+import Spinner from 'react-bootstrap/Spinner';
 
 const CreateArticleForm = ({ onArticleCreated }) => {
   const [title, setTitle] = useState('');
@@ -69,7 +69,7 @@ const CreateArticleForm = ({ onArticleCreated }) => {
         />
         <p className="create-article__error" style={{visibility: `${error ? 'visible' : 'hidden'}`}}>{error}!</p>
         <p className="create-article__message" style={{visibility: `${message ? 'visible' : 'hidden'}`}}>{message}!</p>
-        <button type="submit" className='create-article__button' disabled={loading}>{loading ? <Spinner name='circle' /> : <p>Создать статью</p>}</button>
+        <button type="submit" className='create-article__button' disabled={loading}>{loading ? <Spinner animation="border" role="status"><span className="visually-hidden">Загрузка...</span></Spinner> : <p>Создать статью</p>}</button>
       </div>
     </CreateArticleFormWrapper>
   );
