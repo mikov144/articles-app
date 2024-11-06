@@ -9,10 +9,13 @@ export const ArticlePageWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    margin: 0 auto;
+    margin: 30px auto;
     padding: 20px;
     max-width: 1200px;
     width: 100%;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 
     .article-inner__title {
       margin-bottom: 20px;
@@ -49,7 +52,7 @@ export const ArticlePageWrapper = styled.div`
       gap: 0 40px;
 
       .buttons-wrapper__button {
-        margin-bottom: 60px;
+        margin-bottom: 10px;
         padding: 5px 10px;
         border: none;
         background-color: #a5d124;
