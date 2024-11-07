@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const CommentWrapper = styled.div`
   padding: 10px;
+  margin-bottom: 20px;
   border-bottom: 1px solid #eee;
 
   .edit-section {
@@ -41,13 +42,40 @@ export const CommentWrapper = styled.div`
     }
   }
 
+  .comment-header {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-top: 25px;
+    gap: 20px 0;
+  }
+
+  .comment-header__author {
+    font-size: 18px;
+    line-height: 23px;
+    color: #ffffff;
+  }
+
+  .comment__meta {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 20px;
+  }
+
+  .comment__date {
+    font-size: 14px;
+    line-height: 17px;
+    color: #a5d124;
+  }
+
   .comment__message {
     margin-bottom: 25px;
+    font-size: 20px;
     color: #ffffff;
   }
 
   .comment__button {
-    margin-bottom: 20px;
     padding: 5px 10px;
     border: none;
     background-color: #a5d124;
@@ -99,22 +127,36 @@ export const CommentWrapper = styled.div`
       }
     }
   }
-
   
-
   .replies {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     padding-left: 20px;
   }
 
   .reply {
-    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px 0;
+    padding: 20px;
+    margin-bottom: 30px;
     border-bottom: 1px solid #eee;
     border-left: 1px solid #eee;
   }
 
+  .reply__author {
+    font-size: 18px;
+    line-height: 23px;
+    color: #ffffff;
+  }
+
+  .reply__date {
+    font-size: 14px;
+    line-height: 17px;
+    color: #a5d124;
+  }
+
   .reply__message {
-    margin-bottom: 10px;
+    font-size: 20px;
     color: #ffffff;
   }
 `

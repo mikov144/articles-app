@@ -1,4 +1,3 @@
-// src/pages/ArticleEditPage/ArticleEditPage.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { fetchArticleById } from '../../services/articleService';

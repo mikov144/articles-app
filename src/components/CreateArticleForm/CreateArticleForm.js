@@ -1,4 +1,3 @@
-// src/components/CreateArticleForm/CreateArticleForm.js
 import React, { useState } from 'react';
 import { createArticle } from '../../services/authService';
 import { CreateArticleFormWrapper } from './createArticleForm.styled';

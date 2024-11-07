@@ -1,4 +1,3 @@
-// src/components/LoginPage.js
 import React, { useState } from 'react';
 import { login } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
@@ -18,8 +17,8 @@ const LoginPage = () => {
     setLoading(true)
     try {
       await login({ username, password });
-      localStorage.setItem('username', username); // Save username to local storage
-      navigate('/'); // Redirect to home page after successful login
+      localStorage.setItem('username', username);
+      navigate('/');
     } catch (err) {
       if (err.response && err.response.data) {
         setError(err.response.data.detail || 'Login failed');

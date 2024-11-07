@@ -1,4 +1,3 @@
-// src/components/CommentSection/Comment.js
 import React, { useState } from 'react';
 import { editComment, deleteComment } from '../../services/articleService';
 import { getCurrentUser } from '../../services/authService';
@@ -10,7 +9,7 @@ const Comment = ({ comment, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
   const username = getCurrentUser();
-  const articleId = comment.article; // Ensure the comment object includes the article ID
+  const articleId = comment.article;
 
   const handleReplyChange = (e) => {
     setReply(e.target.value);
@@ -27,7 +26,7 @@ const Comment = ({ comment, onDelete }) => {
       author: {
         username: username
       },
-      id: `reply-${Date.now()}` // Ensure unique key for reply
+      id: `reply-${Date.now()}`
     };
 
     try {
@@ -57,7 +56,7 @@ const Comment = ({ comment, onDelete }) => {
   const handleDelete = async () => {
     try {
       await deleteComment(articleId, comment.id);
-      onDelete(comment.id); // Notify parent component to remove the comment from the UI
+      onDelete(comment.id);
     } catch (error) {
       console.error('Error deleting comment:', error);
     }
@@ -76,21 +75,29 @@ const Comment = ({ comment, onDelete }) => {
           <button onClick={handleEditSubmit} className='edit__button'>Сохранить</button>
         </div>
       ) : (
-        <p className='comment__message'><strong>{comment.author ? comment.author.username : 'Anonymous'}</strong>: {comment.content}</p>
-      )}
-      <button onClick={() => setShowReplyBox(!showReplyBox)} className='comment__button'>Ответить</button>
-      {comment.author && comment.author.username === username && (
-        <div>
-          <button onClick={() => setIsEditing(!isEditing)} className='comment__button'>Изменить</button>
-          <button onClick={handleDelete} className='comment__button'>Удалить</button>
-        </div>
+        <>
+          <div className='comment-header'>
+            <p className='comment-header__author'>{comment.author ? comment.author.username : 'Anonymous'}</p>
+            <div className='comment__meta'>
+              <span className='comment__date'>{comment.created_at ? new Date(comment.created_at).toLocaleDateString("ru-RU") : 'Дата:'}</span>
+              <button onClick={() => setShowReplyBox(!showReplyBox)} className='comment__button'>Ответить</button>
+              {comment.author && comment.author.username === username && (
+                <>
+                  <button onClick={() => setIsEditing(!isEditing)} className='comment__button'>Изменить</button>
+                  <button onClick={handleDelete} className='comment__button'>Удалить</button>
+                </>
+              )}
+            </div>
+          </div>
+          <p className='comment__message'>{comment.content}</p>
+        </>
       )}
       {showReplyBox && (
         <div className="reply-input">
           <textarea
             value={reply}
             onChange={handleReplyChange}
-            placeholder="Write a reply..."
+            placeholder="Напишите ответ..."
             className='reply-input__text'
           />
           <button onClick={handleReplySubmit} className='reply-input__button'>Отправить</button>
@@ -98,8 +105,10 @@ const Comment = ({ comment, onDelete }) => {
       )}
       <div className="replies">
         {comment.replies && comment.replies.map((reply) => (
-          <div key={reply.id} className="reply"> {/* Ensure unique key */}
-            <p className='reply__message'><strong>{reply.author ? reply.author.username : 'Anonymous'}</strong>: {reply.content}</p>
+          <div key={reply.id} className="reply">
+            <p className='reply__author'>{reply.author ? reply.author.username : 'Anonymous'}</p>
+            <span className='reply__date'>{comment.created_at ? new Date(comment.created_at).toLocaleDateString("ru-RU") : 'Дата:'}</span>
+            <p className='reply__message'>{reply.content}</p>
           </div>
         ))}
       </div>
