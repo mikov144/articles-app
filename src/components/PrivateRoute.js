@@ -1,18 +1,11 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { getCurrentUser } from './services/authService';
+import { Navigate } from 'react-router-dom';
+import { getCurrentUser } from '../services/authService';
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) =>
-      getCurrentUser() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-      )
-    }
-  />
-);
+const PrivateRoute = ({ element: Component, ...rest }) => {
+  const isAuthenticated = getCurrentUser();
+  return isAuthenticated ? <Component {...rest} /> : <Navigate to="/login" />;
+};
 
 export default PrivateRoute;
+

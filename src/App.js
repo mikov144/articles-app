@@ -1,12 +1,13 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './components/HomePage';
-import ArticlePage from './components/ArticlePage';
-import RegistrationPage from './components/RegistrationPage';
-import LoginPage from './components/LoginPage';
-import ProfilePage from './components/ProfilePage';
-import PrivateRoute from './PrivateRoute';
+import HomePage from './pages/HomePage/HomePage';
+import ArticlePage from './pages/ArticlePage/ArticlePage';
+import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
+import LoginPage from './pages/LoginPage/LoginPage';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
+import CreateArticlePage from './pages/CreateArticlePage/CreateArticlePage';
+import ArticleEditPage from './pages/ArticleEditPage/ArticleEditPage';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
@@ -16,10 +17,13 @@ function App() {
         <Route path="/article/:id" element={<ArticlePage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile" element={<PrivateRoute element={ProfilePage} />} />
+        <Route path="/create-article" element={<PrivateRoute element={CreateArticlePage} />} />
+        <Route path="/edit-article/:id" element={<PrivateRoute element={ArticleEditPage} />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
