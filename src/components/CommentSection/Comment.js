@@ -1,7 +1,11 @@
+//src/components/CommentSection/Comment.js
 import React, { useState } from 'react';
 import { editComment, deleteComment } from '../../services/articleService';
 import { getCurrentUser } from '../../services/authService';
 import { CommentWrapper } from './comment.styled';
+import TrashBin from '../../icons/delete.png'
+import EditBtn from '../../icons/edit.png'
+import ReplyBtn from '../../icons/reply.png'
 
 const Comment = ({ comment, onDelete }) => {
   const [reply, setReply] = useState('');
@@ -80,11 +84,11 @@ const Comment = ({ comment, onDelete }) => {
             <p className='comment-header__author'>{comment.author ? comment.author.username : 'Anonymous'}</p>
             <div className='comment__meta'>
               <span className='comment__date'>{comment.created_at ? new Date(comment.created_at).toLocaleDateString("ru-RU") : 'Дата:'}</span>
-              <button onClick={() => setShowReplyBox(!showReplyBox)} className='comment__button'>Ответить</button>
+              <button onClick={() => setShowReplyBox(!showReplyBox)} className='comment__button'><img className='comment_button-icon' src={ReplyBtn} alt='' /></button>
               {comment.author && comment.author.username === username && (
                 <>
-                  <button onClick={() => setIsEditing(!isEditing)} className='comment__button'>Изменить</button>
-                  <button onClick={handleDelete} className='comment__button'>Удалить</button>
+                  <button onClick={() => setIsEditing(!isEditing)} className='comment__button'><img className='comment_button-icon' src={EditBtn} alt='' /></button>
+                  <button onClick={handleDelete} className='comment__button'><img className='comment_button-icon' src={TrashBin} alt='' /></button>
                 </>
               )}
             </div>

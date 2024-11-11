@@ -1,3 +1,4 @@
+//src/services/authService.js
 import axios from 'axios';
 
 const API_URL = 'https://darkdes-django-t3b02.tw1.ru/api/v1/registration/';
