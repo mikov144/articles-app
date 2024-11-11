@@ -14,7 +14,7 @@ const Comment = ({ comment, onDelete }) => {
   const [editedContent, setEditedContent] = useState(comment.content);
   const username = getCurrentUser();
   const articleId = comment.article;
-
+  
   const handleReplyChange = (e) => {
     setReply(e.target.value);
   };
@@ -83,7 +83,7 @@ const Comment = ({ comment, onDelete }) => {
           <div className='comment-header'>
             <p className='comment-header__author'>{comment.author ? comment.author.username : 'Anonymous'}</p>
             <div className='comment__meta'>
-              <span className='comment__date'>{comment.created_at ? new Date(comment.created_at).toLocaleDateString("ru-RU") : 'Дата:'}</span>
+              <span className='comment__date'>{comment.created ? new Date(comment.created).toLocaleDateString("ru-RU") : 'Дата:'}</span>
               <button onClick={() => setShowReplyBox(!showReplyBox)} className='comment__button'><img className='comment_button-icon' src={ReplyBtn} alt='' /></button>
               {comment.author && comment.author.username === username && (
                 <>
@@ -111,7 +111,7 @@ const Comment = ({ comment, onDelete }) => {
         {comment.replies && comment.replies.map((reply) => (
           <div key={reply.id} className="reply">
             <p className='reply__author'>{reply.author ? reply.author.username : 'Anonymous'}</p>
-            <span className='reply__date'>{comment.created_at ? new Date(comment.created_at).toLocaleDateString("ru-RU") : 'Дата:'}</span>
+            <span className='reply__date'>{comment.created ? new Date(comment.created).toLocaleDateString("ru-RU") : 'Дата:'}</span>
             <p className='reply__message'>{reply.content}</p>
           </div>
         ))}
