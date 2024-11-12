@@ -1,19 +1,19 @@
-//src/components/CommentSection/Comment.js
+// src/components/CommentSection/Comment.js
 import React, { useState } from 'react';
-import { editComment, deleteComment } from '../../services/articleService';
+import { useComments } from '../../context/CommentContext';
 import { getCurrentUser } from '../../services/authService';
 import { CommentWrapper } from './comment.styled';
 import TrashBin from '../../icons/delete.png'
 import EditBtn from '../../icons/edit.png'
 import ReplyBtn from '../../icons/reply.png'
 
-const Comment = ({ comment, onDelete }) => {
+const Comment = ({ comment, articleId }) => {
+  const { editComment, deleteComment } = useComments();
   const [reply, setReply] = useState('');
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
   const username = getCurrentUser();
-  const articleId = comment.article;
   
   const handleReplyChange = (e) => {
     setReply(e.target.value);
@@ -50,7 +50,6 @@ const Comment = ({ comment, onDelete }) => {
   const handleEditSubmit = async () => {
     try {
       await editComment(articleId, comment.id, { content: editedContent });
-      comment.content = editedContent;
       setIsEditing(false);
     } catch (error) {
       console.error('Error editing comment:', error);
@@ -60,7 +59,6 @@ const Comment = ({ comment, onDelete }) => {
   const handleDelete = async () => {
     try {
       await deleteComment(articleId, comment.id);
-      onDelete(comment.id);
     } catch (error) {
       console.error('Error deleting comment:', error);
     }

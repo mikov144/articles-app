@@ -1,30 +1,18 @@
-//src/components/CommentSection/CommentSection.js
+// src/components/CommentSection/CommentSection.js
 import React, { useEffect, useState } from 'react';
-import { fetchCommentsByArticleId, createComment } from '../../services/articleService';
+import { useComments } from '../../context/CommentContext';
 import { getCurrentUser } from '../../services/authService';
 import Comment from './Comment';
 import { CommentSectionWrapper } from './commentSection.styled';
 
 const CommentSection = ({ articleId }) => {
-  const [comments, setComments] = useState([]);
+  const { comments, fetchComments, createComment } = useComments();
   const [newComment, setNewComment] = useState('');
   const username = getCurrentUser();
 
   useEffect(() => {
-    const getComments = async () => {
-      try {
-        const data = await fetchCommentsByArticleId(articleId);
-        const commentsWithReplies = data.map(comment => ({
-          ...comment,
-          replies: comment.replies || []
-        }));
-        setComments(commentsWithReplies);
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-      }
-    };
-    getComments();
-  }, [articleId]);
+    fetchComments(articleId);
+  }, [articleId, fetchComments]);
 
   const handleAddComment = async () => {
     if (!username) {
@@ -42,17 +30,18 @@ const CommentSection = ({ articleId }) => {
     };
 
     try {
-      const savedComment = await createComment(articleId, commentData);
-      const newCommentWithId = { ...savedComment, id: `comment-${Date.now()}`, author: { username } };
-      setComments([...comments, newCommentWithId]);
+      await createComment(articleId, commentData);
       setNewComment('');
     } catch (error) {
       console.error('Error creating comment:', error);
     }
   };
 
-  const handleDeleteComment = (commentId) => {
-    setComments(comments.filter(comment => comment.id !== commentId));
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleAddComment();
+    }
   };
 
   return (
@@ -62,6 +51,7 @@ const CommentSection = ({ articleId }) => {
         <textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
+          onKeyPress={handleKeyPress}
           placeholder="Оставить комментарий..."
           className="comment-section__input-text"
         />
@@ -69,7 +59,7 @@ const CommentSection = ({ articleId }) => {
       </div>
       <div className="comment-section__list">
         {comments.map((comment) => (
-          <Comment key={comment.id} comment={comment} onDelete={handleDeleteComment} />
+          <Comment key={comment.id} comment={comment} articleId={articleId} />
         ))}
       </div>
     </CommentSectionWrapper>

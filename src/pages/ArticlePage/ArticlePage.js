@@ -1,3 +1,4 @@
+//src/pages/ArticlePage/ArticlePage.js
 import { ArticlePageWrapper } from './articlePage.styled';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
