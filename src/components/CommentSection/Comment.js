@@ -8,13 +8,13 @@ import EditBtn from '../../icons/edit.png'
 import ReplyBtn from '../../icons/reply.png'
 
 const Comment = ({ comment, articleId }) => {
-  const { editComment, deleteComment } = useComments();
+  const { editComment, deleteComment, addReply } = useComments();
   const [reply, setReply] = useState('');
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
   const username = getCurrentUser();
-  
+
   const handleReplyChange = (e) => {
     setReply(e.target.value);
   };
@@ -30,12 +30,12 @@ const Comment = ({ comment, articleId }) => {
       author: {
         username: username
       },
-      id: `reply-${Date.now()}`
+      id: `reply-${Date.now()}`,
+      created_at: new Date().toISOString(),
     };
 
     try {
-      const updatedComment = { ...comment, replies: comment.replies || [] };
-      updatedComment.replies.push(replyData);
+      addReply(comment.id, replyData);
       setReply('');
       setShowReplyBox(false);
     } catch (error) {
@@ -64,6 +64,16 @@ const Comment = ({ comment, articleId }) => {
     }
   };
 
+  const editingModeHandler = () => {
+    setIsEditing(true);
+    setShowReplyBox(false)
+  }
+
+  const replyModeHandler = () => {
+    setShowReplyBox(true);
+    setIsEditing(false);
+  }
+
   return (
     <CommentWrapper>
       {isEditing ? (
@@ -82,10 +92,10 @@ const Comment = ({ comment, articleId }) => {
             <p className='comment-header__author'>{comment.author ? comment.author.username : 'Anonymous'}</p>
             <div className='comment__meta'>
               <span className='comment__date'>{comment.created ? new Date(comment.created).toLocaleDateString("ru-RU") : 'Дата:'}</span>
-              <button onClick={() => setShowReplyBox(!showReplyBox)} className='comment__button'><img className='comment_button-icon' src={ReplyBtn} alt='' /></button>
+              <button onClick={replyModeHandler} className='comment__button'><img className='comment_button-icon' src={ReplyBtn} alt='' /></button>
               {comment.author && comment.author.username === username && (
                 <>
-                  <button onClick={() => setIsEditing(!isEditing)} className='comment__button'><img className='comment_button-icon' src={EditBtn} alt='' /></button>
+                  <button onClick={editingModeHandler} className='comment__button'><img className='comment_button-icon' src={EditBtn} alt='' /></button>
                   <button onClick={handleDelete} className='comment__button'><img className='comment_button-icon' src={TrashBin} alt='' /></button>
                 </>
               )}

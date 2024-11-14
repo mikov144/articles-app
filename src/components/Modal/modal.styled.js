@@ -26,6 +26,21 @@ export const ModalWrapper = styled.div`
     border: 1px solid #ffffff;
     color: #a5d124;
 
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+
+      &:hover {
+        opacity: 0.8;
+      }
+      
+      &:active {
+        opacity: 0.5;
+      }
+    }
+
+
     .modal-inner {
       margin-top: 60px;
       display: flex;

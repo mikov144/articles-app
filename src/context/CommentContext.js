@@ -16,11 +16,17 @@ export const CommentProvider = ({ children }) => {
 
   const fetchComments = async (articleId) => {
     const data = await fetchCommentsByArticleId(articleId);
-    setComments(data);
+    // Ensure each comment has a replies array
+    const commentsWithReplies = data.map(comment => ({
+      ...comment,
+      replies: comment.replies || []
+    }));
+    setComments(commentsWithReplies);
   };
 
   const createComment = async (articleId, commentData) => {
     const newComment = await apiCreateComment(articleId, commentData);
+    newComment.replies = newComment.replies || []; // Ensure replies array is initialized
     setComments((prevComments) => [...prevComments, newComment]);
     return newComment;
   };
@@ -29,7 +35,7 @@ export const CommentProvider = ({ children }) => {
     await apiEditComment(articleId, commentId, commentData);
     setComments((prevComments) =>
       prevComments.map((comment) =>
-        comment.id === commentId ? { ...comment, content: commentData.content } : comment
+        comment.id === commentId ? { ...comment, content: commentData.content, replies: comment.replies || [] } : comment
       )
     );
   };
@@ -39,13 +45,22 @@ export const CommentProvider = ({ children }) => {
     setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
   };
 
+  const addReply = (commentId, reply) => {
+    setComments((prevComments) =>
+      prevComments.map((comment) =>
+        comment.id === commentId
+          ? { ...comment, replies: [...(comment.replies || []), reply] }
+          : comment
+      )
+    );
+  };
+
   return (
     <CommentContext.Provider
-      value={{ comments, fetchComments, createComment, editComment, deleteComment }}
+      value={{ comments, fetchComments, createComment, editComment, deleteComment, addReply }}
     >
       {children}
     </CommentContext.Provider>
   );
 };
-
 

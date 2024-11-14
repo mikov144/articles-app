@@ -176,6 +176,7 @@ const RegistrationPage = () => {
       </div>
       {showModal ? (
         <Modal>
+          <button className='close-modal' onClick={() => setShowModal(false)}>X</button>
           {modalError ? <h2>{modalError}</h2> : <h2>Регистрация успешна! <br />Перенаправляем на страницу входа...</h2>}
         </Modal>
       ) : (
