@@ -1,5 +1,5 @@
-// src/components/CommentSection/Comment.js
-import React, { useState } from 'react';
+//src/components/Comment/Comment.js
+import React, { useState, useEffect } from 'react';
 import { useComments } from '../../context/CommentContext';
 import { getCurrentUser } from '../../services/authService';
 import { CommentWrapper } from './comment.styled';
@@ -13,7 +13,21 @@ const Comment = ({ comment, articleId }) => {
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
+  const [replies, setReplies] = useState([]);
   const username = getCurrentUser();
+
+  useEffect(() => {
+    const storedReplies = localStorage.getItem(`replies-${comment.id}`);
+    if (storedReplies) {
+      setReplies(JSON.parse(storedReplies));
+    } else {
+      setReplies(comment.replies || []);
+    }
+  }, [comment.id, comment.replies]);
+
+  useEffect(() => {
+    localStorage.setItem(`replies-${comment.id}`, JSON.stringify(replies));
+  }, [replies, comment.id]);
 
   const handleReplyChange = (e) => {
     setReply(e.target.value);
@@ -36,6 +50,7 @@ const Comment = ({ comment, articleId }) => {
 
     try {
       addReply(comment.id, replyData);
+      setReplies(prevReplies => [...prevReplies, replyData]);
       setReply('');
       setShowReplyBox(false);
     } catch (error) {
@@ -66,13 +81,13 @@ const Comment = ({ comment, articleId }) => {
 
   const editingModeHandler = () => {
     setIsEditing(true);
-    setShowReplyBox(false)
-  }
+    setShowReplyBox(false);
+  };
 
   const replyModeHandler = () => {
     setShowReplyBox(true);
     setIsEditing(false);
-  }
+  };
 
   return (
     <CommentWrapper>
@@ -116,7 +131,7 @@ const Comment = ({ comment, articleId }) => {
         </div>
       )}
       <div className="replies">
-        {comment.replies && comment.replies.map((reply) => (
+        {replies.map((reply) => (
           <div key={reply.id} className="reply">
             <p className='reply__author'>{reply.author ? reply.author.username : 'Anonymous'}</p>
             <span className='reply__date'>{reply.created_at ? new Date(reply.created_at).toLocaleDateString("ru-RU") : 'Дата:'}</span>

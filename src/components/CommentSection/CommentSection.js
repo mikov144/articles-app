@@ -7,12 +7,17 @@ import { CommentSectionWrapper } from './commentSection.styled';
 
 const CommentSection = ({ articleId }) => {
   const { comments, fetchComments, createComment } = useComments();
+  const [localComments, setLocalComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const username = getCurrentUser();
 
   useEffect(() => {
     fetchComments(articleId);
   }, [articleId, fetchComments]);
+
+  useEffect(() => {
+    setLocalComments(comments);
+  }, [comments]);
 
   const handleAddComment = async () => {
     if (!username) {
@@ -30,7 +35,9 @@ const CommentSection = ({ articleId }) => {
     };
 
     try {
-      await createComment(articleId, commentData);
+      const savedComment = await createComment(articleId, commentData);
+      savedComment.replies = savedComment.replies || [];
+      setLocalComments((prevComments) => [...prevComments, savedComment]);
       setNewComment('');
     } catch (error) {
       console.error('Error creating comment:', error);
@@ -42,6 +49,10 @@ const CommentSection = ({ articleId }) => {
       e.preventDefault();
       handleAddComment();
     }
+  };
+
+  const handleDeleteComment = (commentId) => {
+    setLocalComments((prevComments) => prevComments.filter(comment => comment.id !== commentId));
   };
 
   return (
@@ -58,8 +69,8 @@ const CommentSection = ({ articleId }) => {
         <button onClick={handleAddComment} className="comment-section__input-button">Отправить</button>
       </div>
       <div className="comment-section__list">
-        {comments.map((comment) => (
-          <Comment key={comment.id} comment={comment} articleId={articleId} />
+        {localComments.map((comment) => (
+          <Comment key={comment.id} comment={comment} articleId={articleId} onDelete={handleDeleteComment} />
         ))}
       </div>
     </CommentSectionWrapper>
