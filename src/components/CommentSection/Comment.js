@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { useComments } from '../../context/CommentContext';
 import { getCurrentUser } from '../../services/authService';
 import { CommentWrapper } from './comment.styled';
-import TrashBin from '../../icons/delete.png'
-import EditBtn from '../../icons/edit.png'
-import ReplyBtn from '../../icons/reply.png'
+import TrashBin from '../../icons/delete.png';
+import EditBtn from '../../icons/edit.png';
+import ReplyBtn from '../../icons/reply.png';
 
 const Comment = ({ comment, articleId }) => {
   const { editComment, deleteComment, addReply } = useComments();
@@ -119,7 +119,7 @@ const Comment = ({ comment, articleId }) => {
         {comment.replies && comment.replies.map((reply) => (
           <div key={reply.id} className="reply">
             <p className='reply__author'>{reply.author ? reply.author.username : 'Anonymous'}</p>
-            <span className='reply__date'>{comment.created ? new Date(comment.created).toLocaleDateString("ru-RU") : 'Дата:'}</span>
+            <span className='reply__date'>{reply.created_at ? new Date(reply.created_at).toLocaleDateString("ru-RU") : 'Дата:'}</span>
             <p className='reply__message'>{reply.content}</p>
           </div>
         ))}
