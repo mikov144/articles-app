@@ -22,8 +22,10 @@ const LoginPage = () => {
     } catch (err) {
       if (err.response && err.response.data) {
         setError(err.response.data.detail || 'Login failed');
+        setLoading(false)
       } else {
         setError('An error occurred. Please try again.');
+        setLoading(false)
       }
       console.error('Login error:', err);
     }

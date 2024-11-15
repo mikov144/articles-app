@@ -145,6 +145,7 @@ export const CommentWrapper = styled.div`
     margin-bottom: 30px;
     border-bottom: 1px solid #eee;
     border-left: 1px solid #eee;
+    border-radius: 2px;
   }
 
   .reply__author {
