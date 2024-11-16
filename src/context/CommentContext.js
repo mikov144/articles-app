@@ -1,4 +1,3 @@
-// src/contexts/CommentContext.js
 import React, { createContext, useContext, useState } from 'react';
 import {
   fetchCommentsByArticleId,
@@ -16,7 +15,6 @@ export const CommentProvider = ({ children }) => {
 
   const fetchComments = async (articleId) => {
     const data = await fetchCommentsByArticleId(articleId);
-    // Ensure each comment has a replies array
     const commentsWithReplies = data.map(comment => ({
       ...comment,
       replies: comment.replies || []
@@ -26,7 +24,7 @@ export const CommentProvider = ({ children }) => {
 
   const createComment = async (articleId, commentData) => {
     const newComment = await apiCreateComment(articleId, commentData);
-    newComment.replies = newComment.replies || []; // Ensure replies array is initialized
+    newComment.replies = newComment.replies || [];
     setComments((prevComments) => [...prevComments, newComment]);
     return newComment;
   };

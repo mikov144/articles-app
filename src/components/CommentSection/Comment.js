@@ -1,4 +1,3 @@
-//src/components/Comment/Comment.js
 import React, { useState, useEffect } from 'react';
 import { useComments } from '../../context/CommentContext';
 import { getCurrentUser } from '../../services/authService';
