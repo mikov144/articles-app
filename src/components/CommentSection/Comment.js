@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
-import { editComment, deleteComment } from '../../services/articleService';
+//src/components/Comment/Comment.js
+import React, { useState, useEffect } from 'react';
+import { useComments } from '../../context/CommentContext';
 import { getCurrentUser } from '../../services/authService';
 import { CommentWrapper } from './comment.styled';
+import TrashBin from '../../icons/delete.png';
+import EditBtn from '../../icons/edit.png';
+import ReplyBtn from '../../icons/reply.png';
 
-const Comment = ({ comment, onDelete }) => {
+const Comment = ({ comment, articleId }) => {
+  const { editComment, deleteComment, addReply } = useComments();
   const [reply, setReply] = useState('');
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
+  const [replies, setReplies] = useState([]);
   const username = getCurrentUser();
-  const articleId = comment.article;
+
+  useEffect(() => {
+    const storedReplies = localStorage.getItem(`replies-${comment.id}`);
+    if (storedReplies) {
+      setReplies(JSON.parse(storedReplies));
+    } else {
+      setReplies(comment.replies || []);
+    }
+  }, [comment.id, comment.replies]);
+
+  useEffect(() => {
+    localStorage.setItem(`replies-${comment.id}`, JSON.stringify(replies));
+  }, [replies, comment.id]);
 
   const handleReplyChange = (e) => {
     setReply(e.target.value);
@@ -26,12 +44,13 @@ const Comment = ({ comment, onDelete }) => {
       author: {
         username: username
       },
-      id: `reply-${Date.now()}`
+      id: `reply-${Date.now()}`,
+      created_at: new Date().toISOString(),
     };
 
     try {
-      const updatedComment = { ...comment, replies: comment.replies || [] };
-      updatedComment.replies.push(replyData);
+      addReply(comment.id, replyData);
+      setReplies(prevReplies => [...prevReplies, replyData]);
       setReply('');
       setShowReplyBox(false);
     } catch (error) {
@@ -46,7 +65,6 @@ const Comment = ({ comment, onDelete }) => {
   const handleEditSubmit = async () => {
     try {
       await editComment(articleId, comment.id, { content: editedContent });
-      comment.content = editedContent;
       setIsEditing(false);
     } catch (error) {
       console.error('Error editing comment:', error);
@@ -56,10 +74,19 @@ const Comment = ({ comment, onDelete }) => {
   const handleDelete = async () => {
     try {
       await deleteComment(articleId, comment.id);
-      onDelete(comment.id);
     } catch (error) {
       console.error('Error deleting comment:', error);
     }
+  };
+
+  const editingModeHandler = () => {
+    setIsEditing(true);
+    setShowReplyBox(false);
+  };
+
+  const replyModeHandler = () => {
+    setShowReplyBox(true);
+    setIsEditing(false);
   };
 
   return (
@@ -79,12 +106,12 @@ const Comment = ({ comment, onDelete }) => {
           <div className='comment-header'>
             <p className='comment-header__author'>{comment.author ? comment.author.username : 'Anonymous'}</p>
             <div className='comment__meta'>
-              <span className='comment__date'>{comment.created_at ? new Date(comment.created_at).toLocaleDateString("ru-RU") : 'Дата:'}</span>
-              <button onClick={() => setShowReplyBox(!showReplyBox)} className='comment__button'>Ответить</button>
+              <span className='comment__date'>{comment.created ? new Date(comment.created).toLocaleDateString("ru-RU") : 'Дата:'}</span>
+              <button onClick={replyModeHandler} className='comment__button'><img className='comment_button-icon' src={ReplyBtn} alt='' /></button>
               {comment.author && comment.author.username === username && (
                 <>
-                  <button onClick={() => setIsEditing(!isEditing)} className='comment__button'>Изменить</button>
-                  <button onClick={handleDelete} className='comment__button'>Удалить</button>
+                  <button onClick={editingModeHandler} className='comment__button'><img className='comment_button-icon' src={EditBtn} alt='' /></button>
+                  <button onClick={handleDelete} className='comment__button'><img className='comment_button-icon' src={TrashBin} alt='' /></button>
                 </>
               )}
             </div>
@@ -104,10 +131,10 @@ const Comment = ({ comment, onDelete }) => {
         </div>
       )}
       <div className="replies">
-        {comment.replies && comment.replies.map((reply) => (
+        {replies.map((reply) => (
           <div key={reply.id} className="reply">
             <p className='reply__author'>{reply.author ? reply.author.username : 'Anonymous'}</p>
-            <span className='reply__date'>{comment.created_at ? new Date(comment.created_at).toLocaleDateString("ru-RU") : 'Дата:'}</span>
+            <span className='reply__date'>{reply.created_at ? new Date(reply.created_at).toLocaleDateString("ru-RU") : 'Дата:'}</span>
             <p className='reply__message'>{reply.content}</p>
           </div>
         ))}

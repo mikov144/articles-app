@@ -43,7 +43,6 @@ export const ArticlePageWrapper = styled.div`
       line-height: 120%;
       color: #ffffff;
       text-indent: 25px;
-      word-break: break-all;
     }
 
     .buttons-wrapper {

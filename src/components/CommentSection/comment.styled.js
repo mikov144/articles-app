@@ -92,6 +92,10 @@ export const CommentWrapper = styled.div`
     }
   }
 
+  .comment_button-icon {
+    width: 18px;
+  }
+
   .reply-input {
     margin-bottom: 20px;
     display: flex;
@@ -141,6 +145,7 @@ export const CommentWrapper = styled.div`
     margin-bottom: 30px;
     border-bottom: 1px solid #eee;
     border-left: 1px solid #eee;
+    border-radius: 2px;
   }
 
   .reply__author {

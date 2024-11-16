@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { register } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 import { RegistrationPageWrapper } from './registrationPage.styled';
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { Modal } from '../../components/Modal/Modal';
 import Spinner from 'react-bootstrap/Spinner';
 
-
 const RegistrationPage = () => {
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
+  const [modalError, setModalError] = useState('');
 
   const [values, setValues] = useState({
     firstName: '',
@@ -91,32 +91,37 @@ const RegistrationPage = () => {
       setIsFormValid(true);
     }
   }, [errors, touched]);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     if (!isFormValid) {
       setErrors((prevErrors) => ({ ...prevErrors, form: 'Форма заполнена неверно' }));
-      setLoading(false)
+      setLoading(false);
       return;
     }
     try {
       await register({ username: values.username, email: values.email, password: values.password, first_name: values.firstName, last_name: values.lastName });
       console.log('Registration successful');
-      setLoading(false)
-      setShowModal(true)
+      setLoading(false);
+      setShowModal(true);
       setTimeout(() => {
-        setShowModal(false)
+        setShowModal(false);
         navigate('/login');
-      }, 2000)
+      }, 2000);
       
     } catch (err) {
       if (err.response && err.response.data) {
-        setErrors(err.response.data.detail || 'Registration failed');
+        console.error('Registration error:', err.response.data);
+        setModalError(err.response.data.detail || 'Такое имя пользователя уже занято!');
+        setShowModal(true);
       } else {
-        setErrors('An error occurred. Please try again.');
+        console.error('Registration error:', err.message);
+        setModalError('Возникла ошибка. Попробуйте ещё раз.');
+        setShowModal(true);
       }
-      console.error('Registration error:', err);
+      setLoading(false);
     }
   };
 
@@ -171,7 +176,8 @@ const RegistrationPage = () => {
       </div>
       {showModal ? (
         <Modal>
-          <h2>Регистрация успешна! <br />Перенаправляем на страницу входа...</h2>
+          <button className='close-modal' onClick={() => setShowModal(false)}>X</button>
+          {modalError ? <h2>{modalError}</h2> : <h2>Регистрация успешна! <br />Перенаправляем на страницу входа...</h2>}
         </Modal>
       ) : (
         <></>
